@@ -6,6 +6,7 @@ import os.path as op
 import os
 import pandas as pd
 import numpy as np
+import json
 # endregion
 
 
@@ -55,6 +56,55 @@ class ImageDataset(Dataset):
         if self.transform:
             image = self.transform(image)
         return image, label
+
+# endregion
+
+# region load and save
+def save_json_from_numpy(filename, folder, var):
+    # save numpy array as json file
+
+    with open(op.join(folder, filename), "w") as f:
+        json.dump(var.tolist(), f)
+
+
+def load_json_to_numpy(filename, folder):
+    # load json file to a numpy array
+
+    with open(op.join(folder, filename), "r") as f:
+        saved_data = json.load(f)
+
+    var = np.array(saved_data)
+    return var
+
+
+def save_json(filename, folder, var):
+    # save list to json
+
+    with open(op.join(folder,filename), "w") as f:
+        json.dump(var, f)
+
+
+def load_json(filename,folder):
+    # load list from json
+
+    with open(op.join(folder,filename), "r") as f:
+        saved_data = json.load(f)
+
+    var = saved_data
+    return var
+
+
+def save_pickle(file, folder, var):
+    import pickle
+    with open(op.join(folder, file), "wb") as output_file:
+        pickle.dump(var, output_file)
+
+
+def load_pickle(file,folder):
+    import pickle
+    with open(op.join(folder, file), "rb") as input_file:
+        var = pickle.load(input_file)
+    return var
 
 # endregion
 
